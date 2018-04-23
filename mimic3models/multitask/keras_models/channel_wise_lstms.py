@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 from keras import backend as K
 from keras.models import Model
 from keras.layers import Input, Dense, LSTM, Masking, Dropout
@@ -13,7 +13,7 @@ class Network(Model):
                 partition, ihm_pos, target_repl=False, depth=1, input_dim=76,
                 size_coef=4, **kwargs):
 
-        print "==> not used params in network class:", kwargs.keys()
+        print("==> not used params in network class:", list(kwargs.keys()))
 
         self.dim = dim
         self.batch_norm = batch_norm
@@ -33,12 +33,12 @@ class Network(Model):
             else:
                 channel_names.add(ch)
         channel_names = sorted(list(channel_names))
-        print "==> found {} channels: {}".format(len(channel_names), channel_names)
+        print("==> found {} channels: {}".format(len(channel_names), channel_names))
 
         channels = [] # each channel is a list of columns
         for ch in channel_names:
-            indices = range(len(header))
-            indices = filter(lambda i: header[i].find(ch) != -1, indices)
+            indices = list(range(len(header)))
+            indices = [i for i in indices if header[i].find(ch) != -1]
             channels.append(indices)
 
         # Input layers and masking

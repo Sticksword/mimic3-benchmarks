@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 
 import numpy as np
 import re
@@ -54,7 +54,7 @@ def extract_diagnosis_labels(diagnoses):
         if l not in labels:
             labels[l] = 0
     labels = labels[diagnosis_labels]
-    return labels.rename_axis(dict(zip(diagnosis_labels, [ 'Diagnosis ' + d for d in diagnosis_labels])), axis=1)
+    return labels.rename_axis(dict(list(zip(diagnosis_labels, [ 'Diagnosis ' + d for d in diagnosis_labels]))), axis=1)
 
 def add_hcup_ccs_2015_groups(diagnoses, definitions):
     def_map = {}
@@ -93,7 +93,7 @@ def map_itemids_to_variables(events, var_map):
 
 def read_variable_ranges(fn, variable_column='LEVEL2'):
     columns = [ variable_column, 'OUTLIER LOW', 'VALID LOW', 'IMPUTE', 'VALID HIGH', 'OUTLIER HIGH' ]
-    to_rename = dict(zip(columns, [ c.replace(' ', '_') for c in columns ]))
+    to_rename = dict(list(zip(columns, [ c.replace(' ', '_') for c in columns ])))
     to_rename[variable_column] = 'VARIABLE'
     var_ranges = dataframe_from_csv(fn, index_col=None)
     #var_ranges = var_ranges[variable_column].apply(lambda s: s.lower())
@@ -219,7 +219,7 @@ clean_fns = {
 }
 def clean_events(events):
     global cleaning_fns
-    for var_name, clean_fn in clean_fns.items():
+    for var_name, clean_fn in list(clean_fns.items()):
         idx = (events.VARIABLE == var_name)
         try:
             events.ix[idx,'VALUE'] = clean_fn(events.ix[idx])

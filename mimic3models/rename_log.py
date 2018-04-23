@@ -13,16 +13,16 @@ def main():
 
     for log in args.log:
         if log.find("renamed") != -1:
-            print("{} is already renamed by hand, skipping...".format(log))
+            print(("{} is already renamed by hand, skipping...".format(log)))
             continue
         if os.path.isdir(log):
-            print("{} is a directory, skipping...".format(log))
+            print(("{} is a directory, skipping...".format(log)))
             continue
         with open(log, 'r') as logfile:
             text = logfile.read()
             ret = re.search("==> model.final_name: (.*)\n", text)
             if ret is None:
-                print("No model.final_name in log file: {}. Skipping...".format(log))
+                print(("No model.final_name in log file: {}. Skipping...".format(log)))
                 continue
             name = ret.group(1)
 

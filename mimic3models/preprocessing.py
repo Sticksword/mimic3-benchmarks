@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import random
-import cPickle as pickle
+import pickle as pickle
 
 
 class Discretizer():
@@ -27,7 +27,7 @@ class Discretizer():
             'Weight',
             'pH']
 
-        self._channel_to_id = dict(zip(self._id_to_channel, range(len(self._id_to_channel))))
+        self._channel_to_id = dict(list(zip(self._id_to_channel, list(range(len(self._id_to_channel))))))
        
         self._is_categorical_channel = {
             'Capillary refill rate': True,
@@ -280,10 +280,10 @@ class Discretizer():
         return (data, new_header)
 
     def print_statistics(self):
-        print "statistics of discretizer:"
-        print "\tconverted %d examples" % self._done_count
-        print "\taverage unused data = %.2f percent" % (100.0 * self._unused_data_sum / self._done_count)
-        print "\taverage empty  bins = %.2f percent" % (100.0 * self._empty_bins_sum / self._done_count)
+        print("statistics of discretizer:")
+        print("\tconverted %d examples" % self._done_count)
+        print("\taverage unused data = %.2f percent" % (100.0 * self._unused_data_sum / self._done_count))
+        print("\taverage empty  bins = %.2f percent" % (100.0 * self._empty_bins_sum / self._done_count))
 
 
 class Normalizer():
@@ -323,13 +323,13 @@ class Normalizer():
     
     def load_params(self, load_file_path):
         with open(load_file_path, "rb") as load_file:
-            dct = pickle.load(load_file)
+            dct = pickle.load(load_file, encoding='latin1')
             self._means = dct['means']
             self._stds = dct['stds']
     
     def transform(self, X):
         if (self._fields is None):
-            fields = range(X.shape[1])
+            fields = list(range(X.shape[1]))
         else:
             fields = self._fields
         ret = 1.0 * X

@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 from keras import backend as K
 from keras.models import Model
 from keras.layers import Input, Dense, LSTM, Masking, Dropout
@@ -12,7 +12,7 @@ class Network(Model):
     def __init__(self, dim, batch_norm, dropout, rec_dropout, partition,
                 ihm_pos, target_repl=False, depth=1, input_dim=76, **kwargs):
 
-        print "==> not used params in network class:", kwargs.keys()
+        print("==> not used params in network class:", list(kwargs.keys()))
 
         self.dim = dim
         self.batch_norm = batch_norm

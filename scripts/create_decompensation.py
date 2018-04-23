@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 
 import os
 import argparse
@@ -29,7 +29,7 @@ def process_partition(partition, sample_rate=1.0, shortest_length=4.0,
     patients = list(filter(str.isdigit, os.listdir(os.path.join(args.root_path, partition))))
     for (patient_index, patient) in enumerate(patients):
         patient_folder = os.path.join(args.root_path, partition, patient)
-        patient_ts_files = list(filter(lambda x: x.find("timeseries") != -1, os.listdir(patient_folder)))
+        patient_ts_files = list([x for x in os.listdir(patient_folder) if x.find("timeseries") != -1])
         stays_df = pd.read_csv(os.path.join(patient_folder, "stays.csv"))
 
         for ts_filename in patient_ts_files:
@@ -74,10 +74,10 @@ def process_partition(partition, sample_rate=1.0, shortest_length=4.0,
 
                 sample_times = np.arange(0.0, min(los, lived_time) + eps, sample_rate)
 
-                sample_times = list(filter(lambda x: x > shortest_length, sample_times))
+                sample_times = list([x for x in sample_times if x > shortest_length])
 
                 # At least one measurement
-                sample_times = list(filter(lambda x: x > event_times[0], sample_times))
+                sample_times = list([x for x in sample_times if x > event_times[0]])
 
                 output_ts_filename = patient + "_" + ts_filename
                 with open(os.path.join(output_dir, output_ts_filename), "w") as outfile:

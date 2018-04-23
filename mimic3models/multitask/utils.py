@@ -107,12 +107,12 @@ class BatchGen(object):
         B = self.batch_size
         while True:
             # convert to right format for sort_and_shuffle
-            kv_pairs = self.data.items()
+            kv_pairs = list(self.data.items())
             mas = [kv[1] for kv in kv_pairs]
 
             if self.shuffle:
                 N = len(self.data['X'])
-                order = range(N)
+                order = list(range(N))
                 random.shuffle(order)
                 tmp = [None] * len(mas)
                 for mas_idx in range(len(mas)):
@@ -196,7 +196,7 @@ class BatchGen(object):
     def next(self, return_y_true=False):
         with self.lock:
             self.return_y_true = return_y_true
-            return self.generator.next()
+            return next(self.generator)
 
     def __next__(self):
         return self.generator.__next__()

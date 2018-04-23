@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 from sklearn.preprocessing import Imputer, StandardScaler
 from sklearn.linear_model import LogisticRegression
 from mimic3benchmark.readers import LengthOfStayReader
@@ -121,17 +121,17 @@ def main():
 
         with open(os.path.join('cf_results', 'train_{}.json'.format(model_name)), 'w') as f:
             ret = metrics.print_metrics_custom_bins(train_actual, train_predictions)
-            ret = {k: float(v) for k, v in ret.items()}
+            ret = {k: float(v) for k, v in list(ret.items())}
             json.dump(ret, f)
 
         with open(os.path.join('cf_results', 'val_{}.json'.format(model_name)), 'w') as f:
             ret = metrics.print_metrics_custom_bins(val_actual, val_predictions)
-            ret = {k: float(v) for k, v in ret.items()}
+            ret = {k: float(v) for k, v in list(ret.items())}
             json.dump(ret, f)
 
         with open(os.path.join('cf_results', 'test_{}.json'.format(model_name)), 'w') as f:
             ret = metrics.print_metrics_custom_bins(test_actual, test_predictions)
-            ret = {k: float(v) for k, v in ret.items()}
+            ret = {k: float(v) for k, v in list(ret.items())}
             json.dump(ret, f)
 
         save_results(test_names, test_ts, test_predictions, test_actual,

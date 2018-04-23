@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 from sklearn.preprocessing import Imputer, StandardScaler
 from sklearn.linear_model import LogisticRegression
 from mimic3benchmark.readers import PhenotypingReader
@@ -99,17 +99,17 @@ def main():
 
         with open(os.path.join('results', 'train_{}.json'.format(model_name)), 'w') as f:
             ret = metrics.print_metrics_multilabel(train_y, train_activations)
-            ret = {k: float(v) for k, v in ret.items() if k != 'auc_scores'}
+            ret = {k: float(v) for k, v in list(ret.items()) if k != 'auc_scores'}
             json.dump(ret, f)
 
         with open(os.path.join('results', 'val_{}.json'.format(model_name)), 'w') as f:
             ret = metrics.print_metrics_multilabel(val_y, val_activations)
-            ret = {k: float(v) for k, v in ret.items() if k != 'auc_scores'}
+            ret = {k: float(v) for k, v in list(ret.items()) if k != 'auc_scores'}
             json.dump(ret, f)
 
         with open(os.path.join('results', 'test_{}.json'.format(model_name)), 'w') as f:
             ret = metrics.print_metrics_multilabel(test_y, test_activations)
-            ret = {k: float(v) for k, v in ret.items() if k != 'auc_scores'}
+            ret = {k: float(v) for k, v in list(ret.items()) if k != 'auc_scores'}
             json.dump(ret, f)
 
         save_results(test_names, test_ts, test_activations, test_y, os.path.join('predictions', model_name + '.csv'))

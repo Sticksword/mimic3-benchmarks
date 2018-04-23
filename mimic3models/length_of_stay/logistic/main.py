@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 from sklearn.preprocessing import Imputer, StandardScaler
 from sklearn.linear_model import LinearRegression
 from mimic3benchmark.readers import LengthOfStayReader
@@ -84,19 +84,19 @@ def main():
 
     with open(os.path.join("results", 'train_{}.json'.format(file_name)), "w") as res_file:
         ret = print_metrics_regression(train_y, linreg.predict(train_X))
-        ret = {k: float(v) for k, v in ret.items()}
+        ret = {k: float(v) for k, v in list(ret.items())}
         json.dump(ret, res_file)
 
     with open(os.path.join('results', 'val_{}.json'.format(file_name)), 'w') as res_file:
         ret = print_metrics_regression(val_y, linreg.predict(val_X))
-        ret = {k: float(v) for k, v in ret.items()}
+        ret = {k: float(v) for k, v in list(ret.items())}
         json.dump(ret, res_file)
 
     prediction = linreg.predict(test_X)
 
     with open(os.path.join('results', 'test_{}.json'.format(file_name)), 'w') as res_file:
         ret = print_metrics_regression(test_y, prediction)
-        ret = {k: float(v) for k, v in ret.items()}
+        ret = {k: float(v) for k, v in list(ret.items())}
         json.dump(ret, res_file)
 
     save_results(test_names, test_ts, prediction, test_y, os.path.join('predictions', file_name + '.csv'))

@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 from mimic3benchmark.readers import InHospitalMortalityReader
 from mimic3models import common_utils
 from mimic3models.metrics import print_metrics_binary
@@ -76,19 +76,19 @@ def main():
 
     with open(os.path.join('results', 'train_{}.json'.format(file_name)), 'w') as res_file:
         ret = print_metrics_binary(train_y, logreg.predict_proba(train_X))
-        ret = {k : float(v) for k, v in ret.items()}
+        ret = {k : float(v) for k, v in list(ret.items())}
         json.dump(ret, res_file)
 
     with open(os.path.join('results', 'val_{}.json'.format(file_name)), 'w') as res_file:
         ret = print_metrics_binary(val_y, logreg.predict_proba(val_X))
-        ret = {k: float(v) for k, v in ret.items()}
+        ret = {k: float(v) for k, v in list(ret.items())}
         json.dump(ret, res_file)
 
     prediction = logreg.predict_proba(test_X)[:, 1]
 
     with open(os.path.join('results', 'test_{}.json'.format(file_name)), 'w') as res_file:
         ret = print_metrics_binary(test_y, prediction)
-        ret = {k: float(v) for k, v in ret.items()}
+        ret = {k: float(v) for k, v in list(ret.items())}
         json.dump(ret, res_file)
 
     save_results(test_names, prediction, test_y, os.path.join('predictions', file_name + '.csv'))

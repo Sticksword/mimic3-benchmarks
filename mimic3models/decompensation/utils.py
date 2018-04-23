@@ -68,9 +68,9 @@ class BatchGen(object):
     def __iter__(self):
         return self.generator
 
-    def next(self):
+    def __next__(self):
         with self.lock:
-            return self.generator.next()
+            return next(self.generator)
 
     def __next__(self):
         return self.generator.__next__()
@@ -143,7 +143,7 @@ class BatchGenDeepSupervision(object):
         while True:
             if self.shuffle:
                 N = len(self.data[1])
-                order = range(N)
+                order = list(range(N))
                 random.shuffle(order)
                 tmp_data = [[[None]*N, [None]*N], [None]*N]
                 tmp_names = [None] * N
@@ -186,9 +186,9 @@ class BatchGenDeepSupervision(object):
     def __iter__(self):
         return self.generator
 
-    def next(self):
+    def __next__(self):
         with self.lock:
-            return self.generator.next()
+            return next(self.generator)
 
     def __next__(self):
         return self.generator.__next__()

@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 
 import os
 import argparse
@@ -63,7 +63,7 @@ def process_partition(partition, sample_rate=1.0, shortest_length=4,
 
     for (patient_index, patient) in enumerate(patients):
         patient_folder = os.path.join(args.root_path, partition, patient)
-        patient_ts_files = list(filter(lambda x: x.find("timeseries") != -1, os.listdir(patient_folder)))
+        patient_ts_files = list([x for x in os.listdir(patient_folder) if x.find("timeseries") != -1])
         stays_df = pd.read_csv(os.path.join(patient_folder, "stays.csv"))
 
         for ts_filename in patient_ts_files:
@@ -130,7 +130,7 @@ def process_partition(partition, sample_rate=1.0, shortest_length=4,
                 # create length of stay
                 sample_times = np.arange(0.0, los + eps, sample_rate)
                 sample_times = np.array([int(x+eps) for x in sample_times])
-                cur_los_masks = map(int, (sample_times > shortest_length) & (sample_times > event_times[0]))
+                cur_los_masks = list(map(int, (sample_times > shortest_length) & (sample_times > event_times[0])))
                 cur_los_labels = los - sample_times
 
                 los_masks.append(cur_los_masks)
@@ -165,7 +165,7 @@ def process_partition(partition, sample_rate=1.0, shortest_length=4,
 
                 sample_times = np.arange(0.0, min(los, lived_time) + eps, sample_rate)
                 sample_times = np.array([int(x+eps) for x in sample_times])
-                cur_swat_masks = map(int, (sample_times > shortest_length) & (sample_times > event_times[0]))
+                cur_swat_masks = list(map(int, (sample_times > shortest_length) & (sample_times > event_times[0])))
                 cur_swat_labels = [(mortality & int(lived_time - t < future_time_interval))
                                        for t in sample_times]
                 swat_masks.append(cur_swat_masks)
@@ -211,7 +211,7 @@ def process_partition(partition, sample_rate=1.0, shortest_length=4,
             fm = "%d;%d;%d" % (fixed_mort_positions[index], fixed_mort_masks[index], fixed_mort_labels[index])
 
             ls1 = ";".join(map(str, los_masks[index]))
-            ls2 = ";".join(map(lambda x: "%.6f" % x, los_labels[index]))
+            ls2 = ";".join(["%.6f" % x for x in los_labels[index]])
 
             ph = ";".join(map(str, phenotype_labels[index]))
 

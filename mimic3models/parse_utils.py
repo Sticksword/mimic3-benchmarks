@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import re
 
 
@@ -20,9 +20,9 @@ def get_loss(log, loss_name):
     """ Options for loss_name: 'loss', 'ihm_loss', 'decomp_loss', 'pheno_loss', 'los_loss'
     """
     train = re.findall('[^_]{}: ([0-9.]+)'.format(loss_name), log)
-    train = map(float, train)
+    train = list(map(float, train))
     val = re.findall('val_{}: ([0-9.]+)'.format(loss_name), log)
-    val = map(float, val)
+    val = list(map(float, val))
     if len(train) > len(val):
         assert len(train) - 1 == len(val)
         train = train[:-1]
@@ -31,7 +31,7 @@ def get_loss(log, loss_name):
 
 def parse_metrics(log, metric):
     ret = re.findall('{} = (.*)\n'.format(metric), log)
-    ret = map(float, ret)
+    ret = list(map(float, ret))
     if len(ret) % 2 == 1:
         ret = ret[:-1]
     return ret[::2], ret[1::2]

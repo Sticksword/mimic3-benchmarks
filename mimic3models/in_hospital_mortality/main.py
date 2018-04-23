@@ -19,7 +19,7 @@ parser = argparse.ArgumentParser()
 common_utils.add_common_arguments(parser)
 parser.add_argument('--target_repl_coef', type=float, default=0.0)
 args = parser.parse_args()
-print args
+print(args)
 
 if args.small_part:
     args.save_every = 2**30
@@ -52,7 +52,7 @@ args_dict['task'] = 'ihm'
 args_dict['target_repl'] = target_repl
 
 # Build the model
-print "==> using model {}".format(args.network)
+print("==> using model {}".format(args.network))
 model_module = imp.load_source(os.path.basename(args.network), args.network)
 model = model_module.Network(**args_dict)
 suffix = ".bs{}{}{}.ts{}{}".format(args.batch_size,
@@ -61,11 +61,11 @@ suffix = ".bs{}{}{}.ts{}{}".format(args.batch_size,
                                    args.timestep,
                                    ".trc{}".format(args.target_repl_coef) if args.target_repl_coef > 0 else "")
 model.final_name = args.prefix + model.say_name() + suffix
-print "==> model.final_name:", model.final_name
+print("==> model.final_name:", model.final_name)
 
 
 # Compile the model
-print "==> compiling the model"
+print("==> compiling the model")
 optimizer_config = {'class_name': args.optimizer,
                     'config': {'lr': args.lr,
                                'beta_1': args.beta_1}}
@@ -131,7 +131,7 @@ if args.mode == 'train':
     csv_logger = CSVLogger(os.path.join('keras_logs', model.final_name + '.csv'),
                            append=True, separator=';')
 
-    print "==> training"
+    print("==> training")
     model.fit(x=train_raw[0],
               y=train_raw[1],
               validation_data=val_raw,

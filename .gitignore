@@ -96,3 +96,9 @@ ENV/
 # States of models
 keras_states/
 states/
+
+# MIMIC data
+data/
+
+# Model logs
+mimic3models/in_hospital_mortality/keras_logs

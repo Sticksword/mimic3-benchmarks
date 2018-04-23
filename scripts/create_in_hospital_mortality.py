@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 
 import os
 import argparse
@@ -25,7 +25,7 @@ def process_partition(partition, eps=1e-6, n_hours=48):
     patients = list(filter(str.isdigit, os.listdir(os.path.join(args.root_path, partition))))
     for (patient_index, patient) in enumerate(patients):
         patient_folder = os.path.join(args.root_path, partition, patient)
-        patient_ts_files = list(filter(lambda x: x.find("timeseries") != -1, os.listdir(patient_folder)))
+        patient_ts_files = list([x for x in os.listdir(patient_folder) if x.find("timeseries") != -1])
 
         for ts_filename in patient_ts_files:
             with open(os.path.join(patient_folder, ts_filename)) as tsfile:
