@@ -36,17 +36,17 @@ class Network(Model):
         # Input layers and masking
         X = Input(shape=(None, input_dim), name='X')
         inputs = [X]
-        mX = Masking()(X)
+        # mX = Masking()(X)
 
         if deep_supervision:
             M = Input(shape=(None,), name='M')
             inputs.append(M)
 
         conv = Conv1D(filters=input_dim, kernel_size=3, padding='same', activation='relu')
-        mX = conv(mX)
+        X = conv(X)
 
         pool = MaxPooling1D(pool_size=2)
-        mX = pool(mX)
+        mX = pool(X)
 
         # Configurations
         is_bidirectional = True

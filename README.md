@@ -1,3 +1,21 @@
+## CSE 6250 Project - Mortality Prediction using MIMIC III dataset
+
+### Forked from YerevaNN/mimic3-benchmarks
+
+1. Preprocessed my CSV files using
+  * `export PYTHONPATH=$PYTHONPATH:[PATH TO THIS REPOSITORY]`
+  * `python scripts/extract_subjects.py [PATH TO MIMIC-III CSVs] data/root/`
+  * `python scripts/validate_events.py data/root/`
+  * `python scripts/extract_episodes_from_subjects.py data/root/`
+  * `python scripts/split_train_and_test.py data/root/`
+  * `python scripts/create_in_hospital_mortality.py data/root/ data/in-hospital-mortality/`
+  * `python mimic3models/split_train_val.py in-hospital-mortality`
+2. Added with my own `cnn-lstm.py` implementation + used their `lstm.py` implementation with different flags aside from their baseline to obtain results
+  * `python -u main.py --network ../common_keras_models/lstm.py --dim <dim> --timestep 1.0 --depth <depth> --dropout <dropout> --mode train --batch_size <batch_size>`
+  * `python -u main.py --network ../common_keras_models/cnn-lstm.py --dim <dim> --timestep 1.0 --depth <depth> --dropout <dropout> --mode train --batch_size <batch_size>`
+
+## From original repository:
+
 MIMIC-III Benchmarks
 =========================
 
