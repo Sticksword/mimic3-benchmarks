@@ -11,8 +11,10 @@
   * `python scripts/create_in_hospital_mortality.py data/root/ data/in-hospital-mortality/`
   * `python mimic3models/split_train_val.py in-hospital-mortality`
 2. Added with my own `cnn-lstm.py` implementation + used their `lstm.py` implementation with different flags aside from their baseline to obtain results
-  * `python -u main.py --network ../common_keras_models/lstm.py --dim <dim> --timestep 1.0 --depth <depth> --dropout <dropout> --mode train --batch_size <batch_size>`
-  * `python -u main.py --network ../common_keras_models/cnn-lstm.py --dim <dim> --timestep 1.0 --depth <depth> --dropout <dropout> --mode train --batch_size <batch_size>`
+  * `cd mimic3models/in_hospital_mortality/`
+  * hyperparam tuning / running without CNN part: `python -u main.py --network ../common_keras_models/lstm.py --dim <dim> --timestep 1.0 --depth <depth> --dropout <dropout> --mode train --batch_size <batch_size>`
+  * hyperparam tuning / running with CNN part: `python -u main.py --network ../common_keras_models/cnn-lstm.py --dim <dim> --timestep 1.0 --depth <depth> --dropout <dropout> --mode train --batch_size <batch_size>`
+3. Conda environment like the Python 3 GaTech computing resource is assumed
 
 ## From original repository:
 
